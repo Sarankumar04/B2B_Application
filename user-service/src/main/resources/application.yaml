@@ -7,8 +7,18 @@ spring:
     url: jdbc:mysql://localhost:4444/b2b_db
     password : b2bdb
 
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto : update
+    properties:
+      hibernate:
+        format_sql: true
+
 server:
   port: 9090
+  servlet:
+    context-path: /api/v1
 
 eureka:
   client:
@@ -16,3 +26,7 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone : http://localhost:5678/eureka/
+
+logging:
+  level:
+    root: INFO
