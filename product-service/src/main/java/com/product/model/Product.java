@@ -29,6 +29,8 @@ public class Product {
     private String description;
     @Column(name = "stock_quantity")
     private Integer stockQuantity;
+    @Column(name = "product_owner",nullable = false)
+    private String owner;
     @Column(name = "product_category")
     private String category;
     @Column(name = "active")
