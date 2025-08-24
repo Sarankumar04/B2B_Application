@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: PRODUCT-SERVICE
+
+  datasource:
+    username: root
+    password: b2bdb
+    url: jdbc:mysql://localhost:4444/b2b_db
+
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 9091
+
+
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:5678/eureka/
