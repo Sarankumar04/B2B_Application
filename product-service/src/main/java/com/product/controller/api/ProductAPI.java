@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public interface ProductAPI {
     @PutMapping(path = "/products/{productId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ProductResponse> updateProduct(
             @Parameter(in = ParameterIn.DEFAULT, description = "Product Body") @Valid @RequestBody ProductRequest productRequest,
-            @Parameter(in = ParameterIn.PATH, description = "Id of the product", required = true) @NotEmpty @PathVariable(value = "productId") Long productId
+            @Parameter(in = ParameterIn.PATH, description = "Id of the product", required = true) @NotNull @PathVariable(value = "productId") Long productId
     );
 
     @Operation(summary = "Get Product", description = "Get Product returns the product details")
@@ -43,7 +44,7 @@ public interface ProductAPI {
     @ApiResponse(responseCode = "404", description = "Product not found")
     @GetMapping(path = "/products/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ProductResponse> getProduct(
-            @Parameter(in = ParameterIn.PATH, description = "Id of the product", required = true) @NotEmpty @PathVariable(value = "productId") Long productId
+            @Parameter(in = ParameterIn.PATH, description = "Id of the product", required = true) @NotNull @PathVariable(value = "productId") Long productId
     );
 
     @Operation(summary = "Delete Product",description = "Delete Product")
@@ -52,7 +53,7 @@ public interface ProductAPI {
     @ApiResponse(responseCode = "404", description = "Product not found")
     @DeleteMapping(path = "/products/{productId}")
     ResponseEntity<String> deleteProduct(
-            @Parameter(in = ParameterIn.PATH, description = "Id of the product", required = true) @NotEmpty @PathVariable(value = "productId") Long productId
+            @Parameter(in = ParameterIn.PATH, description = "Id of the product", required = true) @NotNull @PathVariable(value = "productId") Long productId
     );
 
     @Operation(summary = "Get All Products", description = "Get All Products returns all the products")
