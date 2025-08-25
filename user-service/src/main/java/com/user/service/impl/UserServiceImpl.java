@@ -2,7 +2,7 @@ package com.user.service.impl;
 
 import com.user.exception.UserAlreadyExistException;
 import com.user.exception.UserNotFoundException;
-import com.user.model.UserModel;
+import com.user.model.User;
 import com.user.repository.UserRepository;
 import com.user.request.UserRequest;
 import com.user.response.UserResponse;
@@ -26,19 +26,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponse> getAllUsers() {
-        List<UserModel> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
         return users.stream().map(user -> mapper.map(user, UserResponse.class)).toList();
     }
 
     @Override
     public UserResponse createUser(UserRequest user) {
-        Optional<UserModel> userModel = userRepository.findByUserEmail(user.getEmail());
+        Optional<User> userModel = userRepository.findByUserEmail(user.getEmail());
         if (userModel.isPresent()) {
             throw new UserAlreadyExistException("User Already exist with email :" + user.getEmail());
         }
-        UserModel userModel1 = mapper.map(user, UserModel.class);
-        userModel1.setCreatedDate(LocalDateTime.now());
-        userModel1.setModifiedDate(LocalDateTime.now());
+        User userModel1 = mapper.map(user, User.class);
         userModel1.setUserId(UUID.randomUUID().toString());
         userRepository.save(userModel1);
         return mapper.map(userModel1, UserResponse.class);
@@ -46,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse fetchUserById(String userId) {
-        UserModel userModel = userRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        User userModel = userRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
         return mapper.map(userModel, UserResponse.class);
     }
 
@@ -58,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse updateUser(String userId, UserRequest userRequest) {
-        UserModel user = userRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new UserNotFoundException("User Not Found"));
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setPassword(userRequest.getPassword());

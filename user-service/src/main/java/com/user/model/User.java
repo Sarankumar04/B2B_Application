@@ -5,8 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserModel {
+public class User {
 
     @Id
     @Column(name = "user_id", unique = true, nullable = false)
@@ -35,10 +36,10 @@ public class UserModel {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "created_name")
     private LocalDateTime createdDate;
     @Column(name = "modified_date")
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDateTime modifiedDate;
 }
