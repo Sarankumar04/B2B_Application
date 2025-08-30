@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Setter
@@ -24,7 +25,7 @@ public class Product {
     @Column(name = "product_name", nullable = false)
     private String productName;
     @Column(name = "Product_price", nullable = false)
-    private Double price;
+    private BigDecimal price;
     @Column(name = "description")
     private String description;
     @Column(name = "stock_quantity")

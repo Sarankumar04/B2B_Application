@@ -1,0 +1,34 @@
+spring:
+    application:
+        name: order-service
+
+#Data base configuration
+    datasource:
+      username: root
+      password: b2bdb
+      url: jdbc:mysql://localhost:4444/b2b_db
+
+#JPA Configuration
+    jpa:
+     show_sql: true
+     hibernate:
+       ddl-auto: update
+     properties:
+       hibernate:
+         format_sql: true
+
+#Port and Context path configuration
+server:
+  port: 9092
+  servlet:
+    context-path: /api/v1
+
+#Eureka configuration
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:5678/eureka/
+  instance:
+    hostname: localhost
