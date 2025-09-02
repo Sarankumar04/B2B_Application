@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     ResponseEntity<String> productAlreadyExistInCartExceptionHandler(ProductAlreadyExistInCart ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(exception = EmptyCartItemsException.class)
+    ResponseEntity<String> emptyCartItemsExceptionHandler(EmptyCartItemsException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

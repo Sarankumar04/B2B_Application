@@ -5,16 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class CartItemResponse {
+public class OrderItemResponse {
     private Long productId;
     private Integer quantity;
     private BigDecimal price;
-    private String userId;
-    private LocalDateTime createdAt;
+    private BigDecimal subTotal;
 }

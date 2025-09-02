@@ -1,6 +1,6 @@
-/*
 package com.order.model;
 
+import com.order.util.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,7 @@ public class Order {
 
     @Id
     @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderId;
     @Column(nullable = false)
     private String userId;
@@ -33,10 +34,14 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
     @Column(nullable = false)
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+    @Column(name = "user_email",nullable = false)
+    private String userEmail;
+    @Column(name = "phone_number",nullable = false)
+    private Long phoneNumber;
     @Column(name = "orderItem")
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
 }
-*/

@@ -1,4 +1,3 @@
-/*
 package com.order.model;
 
 import jakarta.persistence.*;
@@ -23,8 +22,9 @@ public class OrderItem {
     private Long productId;
     @Column(nullable = false)
     private BigDecimal price;
-    @ManyToMany
-    @JoinColumn(name = "order_id", nullable = false)
+    @Column(nullable = false)
+    private Integer quantity;
+    @OneToOne
+    @JoinTable(name = "order_order_item", joinColumns = @JoinColumn(name = "order_id", nullable = false))
     private Order order;
 }
-*/
