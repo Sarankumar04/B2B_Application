@@ -3,11 +3,15 @@ package com.product.service.impl;
 import com.product.exception.ProductNotFoundException;
 import com.product.model.Product;
 import com.product.repository.ProductRepository;
+import com.product.request.Filter;
 import com.product.request.ProductRequest;
 import com.product.response.ProductResponse;
 import com.product.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,5 +62,18 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductResponse> getAllProducts(String searchText) {
         List<Product> products = repository.findBySearch(searchText);
         return products.stream().map(product -> modelMapper.map(product, ProductResponse.class)).toList();
+    }
+
+    @Override
+    public List<ProductResponse> getAllProducts(Filter filter) {
+
+        Sort.Direction direction = filter.getSortType()==1? Sort.Direction.ASC:Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, filter.getFiledName());
+        Pageable page = PageRequest.of(Integer.parseInt(filter.getPageNumber())-1,Integer.parseInt(filter.getPageSize()),sort);
+
+        return repository.findAll(page)
+                .stream()
+                .map(product -> modelMapper.map(product, ProductResponse.class))
+                .toList();
     }
 }

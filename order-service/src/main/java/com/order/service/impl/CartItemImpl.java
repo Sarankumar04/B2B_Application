@@ -10,6 +10,8 @@ import com.order.response.CartItemResponse;
 import com.order.response.ProductResponse;
 import com.order.response.UserResponse;
 import com.order.service.CartItemService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,7 +31,23 @@ public class CartItemImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final ModelMapper mapper;
 
+    public CartItemResponse productServiceRetry(String userId, CartItemRequest cartItem, Throwable throwable) {
+        if (throwable instanceof ProductAlreadyExistInCart exception)
+            throw exception;
+
+        System.out.println("RateLimiter Fallback due to: " + throwable.getClass().getName());
+        return new CartItemResponse();
+    }
+
+    public CartItemResponse productServicer(String userId, CartItemRequest cartItem, Throwable throwable) {
+        System.out.println("Retry Fallback due to: " + throwable.getClass().getName());
+        return new CartItemResponse();
+    }
+
+
     @Override
+    @Retry(name = "productService",fallbackMethod = "productServicer")
+    @RateLimiter(name = "productRateLimiter", fallbackMethod = "productServiceRetry")
     public CartItemResponse addCartItem(String userId, CartItemRequest cartItem) {
 
         ResponseEntity<UserResponse> user = userClient.getUserById(userId);

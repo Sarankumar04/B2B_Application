@@ -1,5 +1,6 @@
 package com.product.service;
 
+import com.product.request.Filter;
 import com.product.request.ProductRequest;
 import com.product.response.ProductResponse;
 
@@ -15,4 +16,6 @@ public interface ProductService {
     void deleteProduct(Long productId);
 
     List<ProductResponse> getAllProducts(String searchText);
+
+    List<ProductResponse> getAllProducts(Filter filter);
 }

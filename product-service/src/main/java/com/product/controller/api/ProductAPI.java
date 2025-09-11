@@ -1,5 +1,6 @@
 package com.product.controller.api;
 
+import com.product.request.Filter;
 import com.product.request.ProductRequest;
 import com.product.response.ProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,5 +64,10 @@ public interface ProductAPI {
     ResponseEntity<List<ProductResponse>> getAllProducts(
             @Parameter(in = ParameterIn.QUERY, description = "Search text of the product",required = true) @NotEmpty @RequestParam(value = "searchText") String searchText
     );
+
+    @PostMapping(value = "/products/filter",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<ProductResponse>> getAllProducts(
+            @Valid @RequestBody Filter filter
+            );
 
 }

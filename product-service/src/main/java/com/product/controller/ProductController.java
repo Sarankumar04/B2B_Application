@@ -1,6 +1,7 @@
 package com.product.controller;
 
 import com.product.controller.api.ProductAPI;
+import com.product.request.Filter;
 import com.product.request.ProductRequest;
 import com.product.response.ProductResponse;
 import com.product.service.ProductService;
@@ -44,6 +45,12 @@ public class ProductController implements ProductAPI {
     @Override
     public ResponseEntity<List<ProductResponse>> getAllProducts(String searchText) {
         List<ProductResponse> products = productService.getAllProducts(searchText);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<ProductResponse>> getAllProducts(Filter filter) {
+        List<ProductResponse> products = productService.getAllProducts(filter);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

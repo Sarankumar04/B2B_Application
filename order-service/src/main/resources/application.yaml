@@ -32,3 +32,22 @@ eureka:
       defaultZone: http://localhost:5678/eureka/
   instance:
     hostname: localhost
+
+
+resilience4j:
+  retry:
+    instances:
+      productService:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2.0
+        enableRandomizedWait: true
+        ignoreExceptions:
+          - com.order.exception.ProductAlreadyExistInCart
+  rateLimiter:
+    instances:
+      productRateLimiter:
+        limitForPeriod: 2
+        limitRefreshPeriod: 30s
+        timeoutDuration: 1s
