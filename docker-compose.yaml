@@ -1,0 +1,100 @@
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway-service
+      dockerfile: Dockerfile
+    image:
+      api-gateway:latest
+    container_name: api-gateway
+    environment:
+       EUREKA_SERVER_URL : http://eureka-server:5678/eureka/
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+      - order-service
+      - product-service
+      - user-service
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    image: eureka-server:latest
+    container_name: eureka-server
+    restart: always
+    environment:
+       EUREKA_SERVER_URL: http://eureka-server:5678/eureka/
+    ports:
+      - "5678:5678"
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    image: order-service:latest
+    container_name: order-service
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:5678/eureka/
+    ports:
+      - "9092:9092"
+    healthcheck:
+      test: [ "CMD","curl","-f","http://eureka-server:5678/actuator/health" ]
+      retries: 4
+      timeout: 5s
+      interval: 10s
+    depends_on:
+      - eureka-server
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    image: product-service
+    container_name: product-service
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:5678/eureka/
+    ports:
+      - "9091:9091"
+    healthcheck:
+      test: [ "CMD","curl","-f","http://eureka-server:5678/actuator/health" ]
+      retries: 4
+      timeout: 5s
+      interval: 10s
+    depends_on:
+      - eureka-server
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    image: user-service
+    container_name: user-service
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:5678/eureka/
+    ports:
+      - "9090:9090"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://eureka-server:5678/actuator/health"]
+      retries: 4
+      timeout: 5s
+      interval: 10s
+    depends_on:
+      - eureka-server
+
+  mysql-db:
+    image: mysql:latest
+    container_name: b2b_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Saran@123
+      MQSQL_DATABASE: b2b_db
+      MQSQL_USER: dev_saran
+      MYSQL_PASSWORD: devsaran@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - "mysql_db:/var/lib/mysql"
+
+volumes:
+  mysql_db:
