@@ -37,7 +37,7 @@ services:
     environment:
       EUREKA_SERVER_URL: http://eureka-server:5678/eureka/
     ports:
-      - "9092:9092"
+      - "9002:9002"
     healthcheck:
       test: [ "CMD","curl","-f","http://eureka-server:5678/actuator/health" ]
       retries: 4
